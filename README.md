@@ -84,10 +84,6 @@ YOUTUBE_CLIENT_SECRET=your-youtube-client-secret
 npm install
 ```
 
-```plaintext
-YOUTUBE_CLIENT_ID=your-youtube-client-id
-YOUTUBE_CLIENT_SECRET=your-youtube-client-secret
-
 4. Start the development server:
 ```bash
 npm run dev
