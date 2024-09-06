@@ -1,107 +1,96 @@
-# This repo is no longer maintained. Consider using `npm init vite` and selecting the `svelte` option or — if you want a full-fledged app framework — use [SvelteKit](https://kit.svelte.dev), the official application framework for Svelte.
+# Short Video Uploader
 
----
+The **Short Video Uploader** is a Svelte-based web application designed to simplify the process of uploading short videos to multiple social media platforms. Currently, the app supports uploading videos to **YouTube**, and in future updates, it will also support popular platforms like **抖音 (Douyin)**, **TikTok**, **Instagram**, etc
 
-# svelte app
+## Features
 
-This is a project template for [Svelte](https://svelte.dev) apps. It lives at https://github.com/sveltejs/template.
+- **YouTube Upload**: Easily upload short videos to YouTube, complete with customizable titles, descriptions, and privacy settings.
+- **Cross-Platform Support (Upcoming)**: Future updates will allow users to upload the same video to platforms like:
+  - **抖音 (Douyin)**
+  - **TikTok**
+  - **Instagram**
+  - And more...
 
-To create a new project based on this template using [degit](https://github.com/Rich-Harris/degit):
+## Platform Integration Checklist
 
+### **YouTube Integration**
+   - [x] API Access: Research and obtain access to Douyin's developer API.
+   - [x] OAuth Authentication: Implement OAuth 2.0 to authenticate users.
+   - [x] Video Upload API: Implement video upload functionality using the Google API.
+   - [x] Metadata: Ensure that users can add video title, description, and tags.
+   - [ ] Video Specifications: Ensure video formats, sizes, and aspect ratios comply with Douyin requirements.
+   - [ ] Error Handling: Implement error handling for failed uploads or API rate limits.
+
+### **Douyin (抖音) Integration**
+   - [ ] API Access: Research and obtain access to Douyin's developer API.
+   - [ ] OAuth Authentication: Implement OAuth 2.0 to authenticate users.
+   - [ ] Video Upload API: Implement video upload functionality using the Douyin API.
+   - [ ] Metadata: Ensure that users can add video title, description, and tags.
+   - [ ] Video Specifications: Ensure video formats, sizes, and aspect ratios comply with Douyin requirements.
+   - [ ] Error Handling: Implement error handling for failed uploads or API rate limits.
+
+### **TikTok Integration**
+   - [ ] API Access: Register for TikTok for Developers and get API access.
+   - [ ] OAuth Authentication: Use TikTok’s OAuth 2.0 for secure login and access.
+   - [ ] Video Upload API: Use the TikTok API to upload videos.
+   - [ ] Metadata: Allow users to input video title, description, and tags.
+   - [ ] Video Specifications: Validate and ensure video formats, sizes, and aspect ratios conform to TikTok's guidelines.
+   - [ ] Error Handling: Implement retry mechanisms for failed uploads or API rate limit errors.
+
+### **Instagram Integration**
+   - [ ] API Access: Register for access to the Instagram Graph API.
+   - [ ] OAuth Authentication: Implement OAuth 2.0 for Instagram account authorization.
+   - [ ] Video Upload API: Use the Instagram API for uploading videos to user profiles or reels.
+   - [ ] Metadata: Allow users to add captions, hashtags, and geolocation data.
+   - [ ] Privacy Settings: Ensure that videos can be posted to public/private accounts or Stories.
+   - [ ] Thumbnail Management: Either allow custom thumbnail uploads or use Instagram’s default first-frame thumbnail.
+   - [ ] Video Specifications: Ensure video compliance with Instagram's format, aspect ratio, and size limits.
+   - [ ] Error Handling: Implement error recovery strategies for failed uploads and rate limits.
+
+## How to Use
+
+1. **Authorization**: The app redirect users to authorize their YouTube account using OAuth 2.0 to ensure secure access to their YouTube channel.
+2. **Upload Video**:
+   - Enter the video title and description.
+   - Select a video file to upload.
+   - Click "Upload" to start the video upload process.
+3. **Future Expansion**: Future updates will allow you to select multiple platforms for uploading simultaneously.
+
+## Installation and Setup
+
+### Prerequisites
+
+- **Node.js** (version 14.x or later)
+- **npm** or **yarn**
+
+### Installation
+
+1. Clone the repository and navigate into the project folder:
 ```bash
-npx degit sveltejs/template svelte-app
-cd svelte-app
+git clone https://github.com/your-username/short-video-uploader.git
+cd short-video-uploader
 ```
 
-*Note that you will need to have [Node.js](https://nodejs.org) installed.*
+2. Create a `.env` file
 
+Before you start the application, you need to set up your environment variables. In the root directory of the project, create a `.env` file and add your YouTube (and other platform in the future) credentials:
+```plaintext
+YOUTUBE_CLIENT_ID=your-youtube-client-id
+YOUTUBE_CLIENT_SECRET=your-youtube-client-secret
+```
 
-## Get started
-
-Install the dependencies...
-
+3. Install the dependencies:
 ```bash
-cd svelte-app
 npm install
 ```
 
-...then start [Rollup](https://rollupjs.org):
+```plaintext
+YOUTUBE_CLIENT_ID=your-youtube-client-id
+YOUTUBE_CLIENT_SECRET=your-youtube-client-secret
 
+4. Start the development server:
 ```bash
 npm run dev
 ```
+5. Open your browser and navigate to http://localhost:3000 to use the app.
 
-Navigate to [localhost:8080](http://localhost:8080). You should see your app running. Edit a component file in `src`, save it, and reload the page to see your changes.
-
-By default, the server will only respond to requests from localhost. To allow connections from other computers, edit the `sirv` commands in package.json to include the option `--host 0.0.0.0`.
-
-If you're using [Visual Studio Code](https://code.visualstudio.com/) we recommend installing the official extension [Svelte for VS Code](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode). If you are using other editors you may need to install a plugin in order to get syntax highlighting and intellisense.
-
-## Building and running in production mode
-
-To create an optimised version of the app:
-
-```bash
-npm run build
-```
-
-You can run the newly built app with `npm run start`. This uses [sirv](https://github.com/lukeed/sirv), which is included in your package.json's `dependencies` so that the app will work when you deploy to platforms like [Heroku](https://heroku.com).
-
-
-## Single-page app mode
-
-By default, sirv will only respond to requests that match files in `public`. This is to maximise compatibility with static fileservers, allowing you to deploy your app anywhere.
-
-If you're building a single-page app (SPA) with multiple routes, sirv needs to be able to respond to requests for *any* path. You can make it so by editing the `"start"` command in package.json:
-
-```js
-"start": "sirv public --single"
-```
-
-## Using TypeScript
-
-This template comes with a script to set up a TypeScript development environment, you can run it immediately after cloning the template with:
-
-```bash
-node scripts/setupTypeScript.js
-```
-
-Or remove the script via:
-
-```bash
-rm scripts/setupTypeScript.js
-```
-
-If you want to use `baseUrl` or `path` aliases within your `tsconfig`, you need to set up `@rollup/plugin-alias` to tell Rollup to resolve the aliases. For more info, see [this StackOverflow question](https://stackoverflow.com/questions/63427935/setup-tsconfig-path-in-svelte).
-
-## Deploying to the web
-
-### With [Vercel](https://vercel.com)
-
-Install `vercel` if you haven't already:
-
-```bash
-npm install -g vercel
-```
-
-Then, from within your project folder:
-
-```bash
-cd public
-vercel deploy --name my-project
-```
-
-### With [surge](https://surge.sh/)
-
-Install `surge` if you haven't already:
-
-```bash
-npm install -g surge
-```
-
-Then, from within your project folder:
-
-```bash
-npm run build
-surge public my-project.surge.sh
-```
