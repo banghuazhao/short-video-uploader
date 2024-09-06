@@ -61,7 +61,7 @@ The **Short Video Uploader** is a Svelte-based web application designed to simpl
 ### Prerequisites
 
 - **Node.js** (version 14.x or later)
-- **npm** or **yarn**
+- **npm**
 
 ### Installation
 
