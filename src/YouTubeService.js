@@ -1,23 +1,16 @@
 class YouTubeService {
   constructor() {
+    this.clientId = process.env.YOUTUBE_CLIENT_ID
+    this.clientSecret = process.env.YOUTUBE_CLIENT_SECRET
     this.redirectUri = "http://localhost:3000";
     this.accessToken = localStorage.getItem("accessToken");
     this.refreshToken = localStorage.getItem("refreshToken");
     this.tokenExpiryTime = localStorage.getItem("tokenExpiryTime");
     this.logTokens(this.accessToken, this.refreshToken, this.tokenExpiryTime);
-    this.fetchClientInfo()
-  }
-
-  async fetchClientInfo() {
-    const fetchConfig = await fetch('/config.json');
-    const config = await fetchConfig.json();
-    this.clientId = config.clientId_youTube;
-    this.clientSecret = config.clientSecret_youTube;
   }
 
   // Exchange authorization code for access and refresh tokens
   async exchangeCodeForTokens(code) {
-    await this.fetchClientInfo();
     const response = await fetch("https://oauth2.googleapis.com/token", {
       method: "POST",
       headers: {
