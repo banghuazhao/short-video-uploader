@@ -123,7 +123,21 @@ class YouTubeService {
     return authUrl;
   }
 
-  async uploadToYouTube(selectedFile, metadata) {
+  async uploadToYouTube(title, description, selectedFile) {
+
+    const metadata = {
+      snippet: {
+        title: title,
+        description: description,
+        tags: ["New Zealand", "Travel", "Trip"],
+        categoryId: "19",
+      },
+      status: {
+        privacyStatus: "public",
+        madeForKids: false,
+      },
+    };
+
     try {
       // Step 1: Initiate the upload and get the upload URL
       const response = await fetch(
@@ -164,6 +178,20 @@ class YouTubeService {
     } catch (error) {
       throw new Error(`YouTube Upload Error: ${error.message}`);
     }
+  }
+
+  logout() {
+    // Remove the tokens from localStorage
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("tokenExpiryTime");
+
+    // Reset instance variables
+    this.accessToken = null;
+    this.refreshToken = null;
+    this.tokenExpiryTime = null;
+
+    console.log("Logged out and tokens cleared");
   }
 }
 

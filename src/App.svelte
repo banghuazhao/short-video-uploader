@@ -14,24 +14,24 @@
 	$: {
 		const urlParams = new URLSearchParams(window.location.search);
 		const code = urlParams.get("code");
+		const rootUrl = window.location.origin;
 
 		if (code && !youTubeService.isAuthenticated()) {
 			youTubeService
 				.exchangeCodeForTokens(code)
 				.then(() => {
 					isYouTubeAuthenticated = true;
-					resetURl();
+					redirectURL(rootUrl);
 				})
 				.catch((error) => {
 					errorMessage_youTube = `Error during authorization: ${error.message}`;
-					resetURl();
+					redirectURL(rootUrl);
 				});
 		}
 	}
 
-	function resetURl() {
-		const newUrl = window.location.origin + window.location.pathname;
-		window.history.replaceState({}, document.title, newUrl);
+	function redirectURL(url) {
+		window.location.href = url; // Perform the redirection
 	}
 
 	function handleFileChange(event) {
@@ -39,12 +39,12 @@
 	}
 
 	// Function to request Google OAuth authorization
-	function requestAuthorization() {
+	function requestGoogleAuthorization() {
 		const authUrl = youTubeService.requestAuthorizationURL();
-		window.location.href = authUrl;
+		redirectURL(authUrl);
 	}
 
-	async function uploadVideo() {
+	async function uploadVideoForYouTube() {
 		if (!title) {
 			errorMessage_youTube = "Title should not be empty";
 			return;
@@ -54,29 +54,25 @@
 				await youTubeService.refreshAccessToken();
 			}
 
-			const metadata = {
-				snippet: {
-					title: title,
-					description: description,
-					tags: ["New Zealand", "Travel", "Trip"],
-					categoryId: "19",
-				},
-				status: {
-					privacyStatus: "public",
-					madeForKids: false,
-				},
-			};
-
 			const successMessage = await youTubeService.uploadToYouTube(
+				title,
+				description,
 				selectedFile,
-				metadata,
 			);
+
 			isUploaded_youTube = true; // Mark the upload as successful
+
 			console.log(successMessage); // You can still log the success message for debugging
 		} catch (error) {
 			errorMessage_youTube = `Error during video upload: ${error.message}`;
 		}
 	}
+
+	function logoutGoogle() {
+			youTubeService.logout();
+			isYouTubeAuthenticated = youTubeService.isAuthenticated();
+	}
+	
 </script>
 
 <main>
@@ -100,16 +96,18 @@
 	<h2>YouTube</h2>
 
 	{#if !isYouTubeAuthenticated}
-		<button on:click={requestAuthorization}>Authorize with Google</button>
+		<button on:click={requestGoogleAuthorization}>Authorize with Google</button>
 	{:else}
 		<div style="display:flex; gap: 20px">
 			<p>Youtube is ready to upload</p>
-			<button on:click={uploadVideo} disabled={!selectedFile}
+			<button on:click={uploadVideoForYouTube} disabled={!selectedFile}
 				>Upload Video</button
 			>
 			{#if isUploaded_youTube}
 				<p>Uploaded ✅</p>
 			{/if}
+
+			<button on:click={logoutGoogle}>Logout</button>
 		</div>
 	{/if}
 	{#if errorMessage_youTube}
